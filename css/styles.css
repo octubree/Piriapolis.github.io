@@ -489,25 +489,7 @@ h1 .h1color {
 :lang(es) [data-en] { display: none; }
 
 
-/* BOTON WHATSAPP */
 
-.whatsapp-logo {
-    display: inline-block;
-    position: fixed;
-    right: -100px;
-    bottom: 10px;
-    width: 80px;
-    height: 80px;
-    background-image: url("WHATSAPP.png");
-    background-size: cover;
-    transition: transform 0.5s;
-}
-.whatsapp-logo:hover {
-    transform: scale(1.1);
-    background-color: #fff;
-    border-radius: 50%;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-}
 
 /* TEXTO JORGE ELECTRICIDAD */
 
