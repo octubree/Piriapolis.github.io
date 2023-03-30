@@ -1,59 +1,227 @@
-/*!
-* Start Bootstrap - Creative v7.0.6 (https://startbootstrap.com/theme/creative)
-* Copyright 2013-2022 Start Bootstrap
-* Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-creative/blob/master/LICENSE)
-*/
-//
-// Scripts
-// 
+setTimeout(function() {
+    document.querySelector('.whatsapp-logo').style.right = '10px';
+}, 3000);
 
-window.addEventListener('DOMContentLoaded', event => {
+$('button').click(function(){
+    var lang = $('html').attr('lang');
+    if(lang == 'es') {
+      $('html').attr('lang','en');
+      $('button').text('Ingles');
+    } else {
+      $('html').attr('lang','es');
+      $('button').text('Español');
+    }
+  });
+  
 
-    // Navbar shrink function
-    var navbarShrink = function () {
-        const navbarCollapsible = document.body.querySelector('#mainNav');
-        if (!navbarCollapsible) {
-            return;
+//   EFECTO LETRA JORGE ELCTRICIDAD 
+window.addEventListener('scroll', function() {
+    var container = document.querySelector('.container');
+    var position = container.getBoundingClientRect().top;
+
+    if (position < window.innerHeight * 0.9) {
+        container.classList.add('fade-out');
+    }
+});
+  
+  
+
+
+// GALERIA FOTOS -------------
+
+$(document).ready( function() {
+
+    var itemSelector = '.grid-item'; 
+
+    var $container = $('#container').isotope({
+        itemSelector: itemSelector,
+        masonry: {
+          columnWidth: itemSelector,
+          isFitWidth: true
         }
-        if (window.scrollY === 0) {
-            navbarCollapsible.classList.remove('navbar-shrink')
-        } else {
-            navbarCollapsible.classList.add('navbar-shrink')
-        }
+    });
 
-    };
+    //Ascending order
+    var responsiveIsotope = [
+        [480, 7],
+        [720, 10]
+    ];
 
-    // Shrink the navbar 
-    navbarShrink();
+    var itemsPerPageDefault = 12;
+    var itemsPerPage = defineItemsPerPage();
+    var currentNumberPages = 1;
+    var currentPage = 1;
+    var currentFilter = '*';
+    var filterAtribute = 'data-filter';
+    var pageAtribute = 'data-page';
+    var pagerClass = 'isotope-pager';
 
-    // Shrink the navbar when page is scrolled
-    document.addEventListener('scroll', navbarShrink);
-
-    // Activate Bootstrap scrollspy on the main nav element
-    const mainNav = document.body.querySelector('#mainNav');
-    if (mainNav) {
-        new bootstrap.ScrollSpy(document.body, {
-            target: '#mainNav',
-            offset: 74,
+    function changeFilter(selector) {
+        $container.isotope({
+            filter: selector
         });
-    };
+    }
 
-    // Collapse responsive navbar when toggler is visible
-    const navbarToggler = document.body.querySelector('.navbar-toggler');
-    const responsiveNavItems = [].slice.call(
-        document.querySelectorAll('#navbarResponsive .nav-link')
-    );
-    responsiveNavItems.map(function (responsiveNavItem) {
-        responsiveNavItem.addEventListener('click', () => {
-            if (window.getComputedStyle(navbarToggler).display !== 'none') {
-                navbarToggler.click();
+
+    function goToPage(n) {
+        currentPage = n;
+
+        var selector = itemSelector;
+            selector += ( currentFilter != '*' ) ? '['+filterAtribute+'="'+currentFilter+'"]' : '';
+            selector += '['+pageAtribute+'="'+currentPage+'"]';
+
+        changeFilter(selector);
+    }
+
+    function defineItemsPerPage() {
+        var pages = itemsPerPageDefault;
+
+        for( var i = 0; i < responsiveIsotope.length; i++ ) {
+            if( $(window).width() <= responsiveIsotope[i][0] ) {
+                pages = responsiveIsotope[i][1];
+                break;
             }
-        });
+
+            
+
+        }
+
+        return pages;
+    }
+    
+    function setPagination() {
+
+        var SettingsPagesOnItems = function(){
+
+            var itemsLength = $container.children(itemSelector).length;
+            
+            var pages = Math.ceil(itemsLength / itemsPerPage);
+            var item = 1;
+            var page = 1;
+            var selector = itemSelector;
+                selector += ( currentFilter != '*' ) ? '['+filterAtribute+'="'+currentFilter+'"]' : '';
+            
+            $container.children(selector).each(function(){
+                if( item > itemsPerPage ) {
+                    page++;
+                    item = 1;
+                }
+                $(this).attr(pageAtribute, page);
+                item++;
+            });
+
+            currentNumberPages = page;
+
+        }();
+
+        var CreatePagers = function() {
+
+            var $isotopePager = ( $('.'+pagerClass).length == 0 ) ? $('<div class="'+pagerClass+'"></div>') : $('.'+pagerClass);
+
+            $isotopePager.html('');
+            
+            for( var i = 0; i < currentNumberPages; i++ ) {
+                var $pager = $('<a href="javascript:void(0);" class="pager" '+pageAtribute+'="'+(i+1)+'"></a>');
+                    $pager.html(i+1);
+                    
+                    $pager.click(function(){
+                        var page = $(this).eq(0).attr(pageAtribute);
+                        goToPage(page);
+                    });
+
+                $pager.appendTo($isotopePager);
+            }
+
+            $container.after($isotopePager);
+
+        }();
+
+    }
+
+    setPagination();
+    goToPage(1);
+
+    //Adicionando Event de Click para as categorias
+    $('.filters a').click(function(){
+        var filter = $(this).attr(filterAtribute);
+        currentFilter = filter;
+
+        setPagination();
+        goToPage(1);
+
+
     });
 
-    // Activate SimpleLightbox plugin for portfolio items
-    new SimpleLightbox({
-        elements: '#portfolio a.portfolio-box'
+    //Evento Responsivo
+    $(window).resize(function(){
+        itemsPerPage = defineItemsPerPage();
+        setPagination();
     });
+
+    
 
 });
+
+
+
+ $(document).ready( function() {   
+
+// filter items on button click
+$('.filter-button-group').on( 'click', 'li', function() {
+  var filterValue = $(this).attr('data-filter');
+  $('.grid').isotope({ filter: filterValue });
+  $('.filter-button-group li').removeClass('active');
+  $(this).addClass('active');
+});
+    })
+    
+
+ $(document).ready( function() {   
+
+// filter items on button click
+$('.isotope-pager').on( 'click', 'a', function() {
+  var filterValue = $(this).attr('data-page');
+
+  $('.isotope-pager a').removeClass('active');
+  $(this).addClass('active');
+});
+    })
+    
+    
+    
+    
+    
+    
+    
+
+$(document).ready(function(){
+$('.popupimg').magnificPopup({
+    type: 'image',
+  mainClass: 'mfp-with-zoom', 
+  gallery:{
+            enabled:true
+        },
+
+  zoom: {
+    enabled: true, 
+
+    duration: 300, // duration of the effect, in milliseconds
+    easing: 'ease-in-out', // CSS transition easing function
+
+    opener: function(openerElement) {
+
+      return openerElement.is('img') ? openerElement : openerElement.find('img');
+  }
+}
+
+});
+
+});
+
+
+// TESTIMONIOS -------------------
+
+
+
+
+  
