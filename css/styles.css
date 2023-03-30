@@ -489,7 +489,25 @@ h1 .h1color {
 :lang(es) [data-en] { display: none; }
 
 
+/* BOTON WHATSAPP */
 
+.whatsapp-logo {
+    display: inline-block;
+    position: fixed;
+    right: -100px;
+    bottom: 10px;
+    width: 80px;
+    height: 80px;
+    background-image: url("WHATSAPP.png");
+    background-size: cover;
+    transition: transform 0.5s;
+}
+.whatsapp-logo:hover {
+    transform: scale(1.1);
+    background-color: #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
 
 /* TEXTO JORGE ELECTRICIDAD */
 
@@ -978,20 +996,4 @@ a{
 }
 
 
-/* BOTON WHATSAAP */
-.btn-whatsapp {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 999;
-  color: #ffffff; /* cambia el color del texto a blanco */
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.5); /* agrega una sombra al texto */
-  background-color: #ff9800; /* cambia el color de fondo a naranja */
-  border-color: #ff9800; /* cambia el color del borde a naranja */
-}
-
-.btn-whatsapp:hover {
-  background-color: #25d366;
-  border-color: #25d366; /* cambia el color del borde al hacer hover */
-}
 
