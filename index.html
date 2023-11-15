@@ -38,37 +38,34 @@
 
 <style>
   /* Para dispositivos móviles */
-@media (max-width: 767px) {
-  .mobile-only {
-    display: block !important;
-    position: fixed;
-    top: 5px;
-    right: 20px;
-    max-width: 200px;
-    max-height: 400px;
-    background: transparent;
-    padding: 1px;
-    box-sizing: border-box;
+  @media (max-width: 767px) {
+    .mobile-only > img {
+      display: block !important;
+      max-width: 200px;
+      max-height: 400px;
+      background: transparent;
+      padding: 1px;
+      box-sizing: border-box;
+      position: relative !important;
+    }
+  
+    .desktop-only {
+      display: none !important;
+    }
   }
-
-  .desktop-only {
-    display: none !important;
+  
+  /* Para escritorios */
+  @media (min-width: 768px) {
+    .mobile-only > img {
+      display: none !important;
+    }
+  
+    .desktop-only {
+      display: block !important;
+    }
   }
-}
-
-/* Para escritorios */
-@media (min-width: 768px) {
-  .mobile-only {
-    display: none !important;
-  }
-
-  .desktop-only {
-    display: block !important;
-  }
-}
-
-  </style>
-
+  
+    </style>
 
 
 
@@ -93,45 +90,30 @@
 
 
                                                   <!-- BOTON LLAMADAS Y WHATSAPP EN TELÈFNOS--- -->
-        <div id="contacto">
-    <div style="display: inline-block; margin: 10px; padding: 15px;">       
-      <div>
-        <a href="tel:+59892508795" class="btn btn-primary btn-lg" style="display: flex; align-items: flex-end; justify-content: flex-end; font-size: 18px; font-family: 'Anton', sans-serif; color:white; text-shadow: 1px 1px black;">
-          <span>092508795 |&nbsp;</span> <span>Clic y Llámane </span><span style="margin-right: 10px;"></span>
-        </a>
-      </div>
-      
-      <div>
-        <a href="https://wa.me/59892508795" style="display: inline-block; margin: 30px;">
-          <img src="https://ellwinan.sirv.com/WHATSAPP.png?format=webp" width="50" height="50" alt="Botón de WhatsApp">
-          <span>Clic y Chatea&nbsp;</span><span style="margin-right: 10px;"></span>
-
-        </a>
-      </div>
-    </div>
-    </div>
+                                                  <div id="contacto">
+                                                    <div style="display: inline-block; margin: 10px; padding: 15px;">       
+                                                      <div>
+                                                        <a href="tel:+59892508795" class="btn btn-primary btn-lg" style="display: flex; align-items: flex-end; justify-content: flex-end; font-size: 18px; font-family: 'Anton', sans-serif; color:white; text-shadow: 1px 1px black;">
+                                                          <span>092508795 |&nbsp;</span> <span>Clic y Llámane </span><span style="margin-right: 10px;"></span>
+                                                        </a>
+                                                      </div>
+                                                      
+                                                      <div>
+                                                        <a href="https://wa.me/59892508795" style="display: inline-block; margin: 30px;">
+                                                          <img src="https://ellwinan.sirv.com/WHATSAPP.png?format=webp" width="50" height="50" alt="Botón de WhatsApp">
+                                                          <span>Clic y Chatea&nbsp;</span><span style="margin-right: 10px;"></span>
+                                                
+                                                        </a>
+                                                      </div>
+                                                    </div>
+                                                    </div>
 
 
     <!-- SOLO EN TELÉFONOS Y TABLET -->
-<div class="mobile-only" style="position: fixed; top: 140px; left: 50px; max-width: 150px; max-height: 250px; background: transparent; padding: 1px; box-sizing: border-box; z-index: 9999;">
-  <!-- Contenido del bloque -->
-  <img src="https://ik.imagekit.io/tnzquipyu/ute-removebg-preview.png?updatedAt=1700002422702" alt="Descripción de la imagen" style="max-width: 100%; height: auto;">
-</div>
-
-
-
-
-            <!-- SOLO EN PC  -->
-              
-  <!-- Contenido que solo se mostrará en dispositivos móviles y tabletas -->
-</div>
-
-<div class="desktop-only" style="position: relative;">
-  <div style="position: absolute; top: auto; right: 120px; max-width: 200px; max-height: 400px; background: transparent; padding: 1px; box-sizing: border-box;">
-    <!-- Contenido del bloque -->
-    <img src="https://ik.imagekit.io/tnzquipyu/ute-removebg-preview.png?updatedAt=1700002422702" alt="Descripción de la imagen" style="max-width: 100%; height: auto;">
-  </div>
-</div>   
+    <div class="mobile-only" style="position: fixed; top: 140px; left: 50px; max-width: 150px; max-height: 250px; background: transparent; padding: 1px; box-sizing: border-box; z-index: 9999;">
+      <!-- Contenido del bloque -->
+      <img src="https://ik.imagekit.io/tnzquipyu/ute-removebg-preview.png?updatedAt=1700002422702" alt="Descripción de la imagen" style="max-width: 100%; height: auto;">
+    </div>
 
 
 
