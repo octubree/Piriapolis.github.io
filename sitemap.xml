@@ -9,7 +9,13 @@
 
 <url>
   <loc>https://jorge-electricidad.online/</loc>
-  <lastmod>2023-09-14T22:35:43+00:00</lastmod>
+  <lastmod>2024-06-02T19:33:40+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://jorge-electricidad.online/index.html</loc>
+  <lastmod>2024-06-02T19:33:40+00:00</lastmod>
+  <priority>0.80</priority>
 </url>
 
 
