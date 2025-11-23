@@ -10,42 +10,75 @@
 # General
 --------------------------------------------------------------*/
 
-/* BANNER EFECTO  */
-
+/* BANNER EFECTO MARQUESINA */
 .banner {
-  height: 20px;
   background-color: yellow;
-  width: 100%; /* Ajusta el ancho según tu página */
+  width: 100%;
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 9999; /* Asegura que esté por encima de todo */
   overflow: hidden;
+  padding: 5px 0;
+  height: auto;
 }
 
 .banner p {
+  margin: 0;
   color: black;
   font-size: 16px;
   font-weight: bold;
-  margin: 0;
-  padding: 0;
-  white-space: nowrap; /* Evita que el texto se rompa en varias líneas */
-  position: absolute;
-  top: 50%;
-  left: 100%; /* Posición inicial fuera del banner */
-  transform: translateY(-50%);
+  white-space: nowrap; /* Evita que el texto se rompa */
+  display: inline-block; /* Permite que la animación funcione correctamente */
+  padding-left: 100%; /* Inicia el texto fuera de la pantalla */
+  animation: marquee 15s linear infinite;
+}
+
+/* Animación para el desplazamiento */
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
 }
 
 
-/* TERMINA BANNER EFECTO  */
 
+/* BOTON WHATSAPP ------ */
 
-
- /* Oculta el botón de WhatsApp y el enlace de llamada sólo en pantallas grandes */
+/* Oculta el botón de WhatsApp y el enlace de llamada sólo en pantallas grandes */
 @media screen and (min-width: 768px) {
   #contacto {
     display: none;
   }
 }
+/* TERMINA BOTON WHATSAPP  */
+
+/* CLASE PARA PUNTA DEL ESTE, PARA QUE EL PADDING SOLO SE APLIQUE EN DISPOSITIVOS MOBILES */
+
+/* #mi-h2 {
+  padding-bottom: 30%;
+  font-size: x-large;
+  font-weight: bold;
+  display: block;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+@media (max-width: 1024px) {
+  #mi-h2 {
+    padding-bottom: 0;
+    font-size: inherit;
+    font-weight: inherit;
+    display: none;
+    max-width: inherit;
+    margin: inherit;
+  }
+} */
+
+
+/* TERMINA CLASE PARA PUNTA DEL ESTE */
+
+
+
 
 
   /* MUESTRA SOLO EN PANTALLAS GRANDES  */
@@ -66,8 +99,18 @@
   position: absolute;
   top: 0;
   left: 0;
+  margin-top: 30px; /* Añadido para bajarlo debajo del banner */
 }
 /* TERMINA TEXTO NUMERO  */
+
+
+
+
+
+
+
+
+
 
 
 
@@ -94,19 +137,21 @@ body::before {
   z-index: -1;
 }
 
-        /* FLECHA GIF----- */
-        #gif-container {
-          position: fixed;
-          bottom: 80px;
-          left: 50%;
-          transform: translateX(-50%);
-        }
-        
-        #gif-container img {
-          width: 50px;
-          height: 50px;
-          transform: scaleY(-1);
-        }
+/* FLECHA BAJAR ---- */
+
+      /* FLECHA GIF----- */
+      #gif-container {
+        position: fixed;
+        bottom: 80px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      
+      #gif-container img {
+        width: 50px;
+        height: 50px;
+        transform: scaleY(-1);
+      }
       /* Flecha GIF solo en pantallas de escritorio */
 @media screen and (min-width: 768px) {
   #gif-container {
@@ -129,8 +174,6 @@ body::before {
     display: none;
   }
 }
-  
-
 
 
 @media (min-width: 1024px) {
@@ -197,12 +240,10 @@ h6 {
   color: rgba(255, 255, 255, 0.8);
 }
 
-@media (min-width: 768px) {
-  #header h2 span {
-    color: #fff;
-    border-bottom: 2px solid #18d26e;
-    padding-bottom: 6px;
-  }
+#header h2 span {
+  color: #fff;
+  border-bottom: 2px solid #18d26e;
+  padding-bottom: 6px;
 }
 
 #header img {
@@ -262,6 +303,7 @@ h6 {
   top: 0;
   right: 0;
   background: rgba(0, 0, 0, 0.9);
+  z-index: 9999; 
 }
 
 #header.header-top .social-links,
@@ -375,7 +417,7 @@ h6 {
   color: #fff;
   font-size: 88px;
   cursor: pointer;
-  display: inline-flex;
+  display: none; /* Oculto por defecto */
   line-height: 0;
   transition: 0.5s;
   position: fixed;
@@ -385,6 +427,12 @@ h6 {
   /* EFECTO ZOOM MENU---- */
   
   animation: zoom-in 1s 6;
+}
+
+@media (min-width: 992px) {
+  .mobile-nav-toggle {
+    display: none !important; /* Asegurarse de que esté oculto en escritorio */
+  }
 }
 
 @keyframes zoom-in {
@@ -917,6 +965,18 @@ section .container {
   border-radius: 4px;
 }
 
+@media (max-width: 767px) {
+  .portfolio #portfolio-flters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .portfolio #portfolio-flters li {
+    flex: 1 0 30%; /* Tres columnas en móvil */
+    margin: 5px;
+  }
+}
+
 .portfolio #portfolio-flters li:hover,
 .portfolio #portfolio-flters li.filter-active {
   background: #18d26e;
@@ -1277,11 +1337,11 @@ section .container {
 # Credits
 --------------------------------------------------------------*/
 .credits {
-  position: relative;
+  position:relative;
   right: 0;
   left: 0;
   bottom: 0;
-  padding: 15px;
+  padding: 10px;
   text-align: right;
   font-size: 13px;
   color: #fff;

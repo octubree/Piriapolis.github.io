@@ -4,32 +4,30 @@
 * Template URL: https://bootstrapmade.com/personal-free-resume-bootstrap-template/
 * Author: BootstrapMade.com
 * License: https://bootstrapmade.com/license/
-
-
-
 */
 
 
 // BANNER EFECTO 
-document.addEventListener("DOMContentLoaded", function() {
-  const bannerText = document.querySelector(".banner p");
-  let position = 100;
+// document.addEventListener("DOMContentLoaded", function() {
+//   const bannerText = document.querySelector(".banner p");
+//   let position = 100;
 
-  function animateBannerText() {
-    position -= 0.2; // Ajusta la velocidad aquí
+//   function animateBannerText() {
+//     position -= 0.2; // Ajusta la velocidad aquí
 
-    bannerText.style.left = position + "%";
+//     bannerText.style.left = position + "%";
 
-    if (position < -20) {
-      position = 100;
-    }
+//     if (position < -20) {
+//       position = 100;
+//     }
 
-    requestAnimationFrame(animateBannerText);
-  }
+//     requestAnimationFrame(animateBannerText);
+//   }
 
-  animateBannerText();
-});
+//   animateBannerText();
+// });
 // TERMINA BANNER EFECTO 
+
 
 
   // OCULTA IMAGEN UTE CUANDO ABRE MENÚ EN MOBILES
@@ -41,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function() {
     mobileOnlyDiv.style.display = 'none';
   });
 
-// TERMINA OCULTA IMAGEN CUANDO ABRE MENU MOBILES
+// TERMINA OCULTA IMAGEN CUANDO ABRE MENU EN MOBILES
 
 (function() {
   "use strict";
