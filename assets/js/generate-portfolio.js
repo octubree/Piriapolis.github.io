@@ -28,25 +28,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Re-initialize Isotope after dynamic content is loaded
       imagesLoaded(portfolioContainer, function() {
-        let portfolioIsotope = new Isotope(portfolioContainer, {
+        new Isotope(portfolioContainer, {
           itemSelector: '.portfolio-item',
           layoutMode: 'fitRows'
-        });
-
-        let portfolioFilters = document.querySelectorAll('#portfolio-flters li');
-
-        portfolioFilters.forEach(function(el) {
-          el.addEventListener('click', function(e) {
-            e.preventDefault();
-            portfolioFilters.forEach(function(filterEl) {
-              filterEl.classList.remove('filter-active');
-            });
-            this.classList.add('filter-active');
-
-            portfolioIsotope.arrange({
-              filter: this.getAttribute('data-filter')
-            });
-          });
         });
       });
 
