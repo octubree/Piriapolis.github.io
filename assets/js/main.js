@@ -223,7 +223,7 @@
   /**
    * Porfolio isotope and filter
    */
-  /* window.addEventListener('load', () => {
+  window.addEventListener('load', () => {
     let portfolioContainer = select('.portfolio-container');
     if (portfolioContainer) {
       let portfolioIsotope = new Isotope(portfolioContainer, {
@@ -246,7 +246,7 @@
       }, true);
     }
 
-  }); */
+  });
 
   /**
    * Initiate portfolio lightbox 
