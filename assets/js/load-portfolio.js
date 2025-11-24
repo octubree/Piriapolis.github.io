@@ -56,5 +56,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
         })
-        .catch(error => console.error('Error loading portfolio:', error));
+        .catch(error => {
+            console.error('Error loading portfolio:', error);
+            portfolioContainer.innerHTML = `<div class="col-12 text-center"><p>Error al cargar las imágenes. Por favor, verifica la consola para más detalles.</p></div>`;
+        });
 });
