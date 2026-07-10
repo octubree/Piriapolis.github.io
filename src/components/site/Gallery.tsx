@@ -106,7 +106,6 @@ export function Gallery() {
         <SectionHeading
           eyebrow="Fotos"
           title="Trabajos Realizados"
-          subtitle="Una muestra visual de mis instalaciones eléctricas, firmas de UTE y trabajos de iluminación realizados en Piriápolis y zonas aledañas."
         />
 
         {/* Filters */}
@@ -192,7 +191,7 @@ export function Gallery() {
                   {/* title */}
                   <div className="absolute inset-x-0 bottom-0 p-3 sm:p-4">
                     <h3 className="text-sm font-semibold text-white line-clamp-2 leading-tight sm:text-base">
-                      {item.altText}
+                      Jorge Electricidad | Piriapolis-Maldonado-Uruguay
                     </h3>
                   </div>
                 </motion.button>
@@ -253,7 +252,7 @@ export function Gallery() {
               <DialogHeader className="px-6 pb-6 pt-4">
                 <DialogTitle className="text-xl flex items-center gap-2">
                   <ImageIcon className="size-5 text-primary" />
-                  {selected.altText}
+                  Jorge Electricidad | Piriapolis-Maldonado-Uruguay
                 </DialogTitle>
                 <DialogDescription className="text-sm leading-relaxed text-muted-foreground mt-1">
                   Fotografía de trabajo real en Piriápolis. Ofrecemos asesoramiento, presupuestos y garantía escrita.

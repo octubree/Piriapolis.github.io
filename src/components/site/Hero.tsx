@@ -47,8 +47,7 @@ export function Hero() {
           </h1>
 
           <p className="max-w-xl text-base leading-relaxed text-muted-foreground text-pretty sm:text-lg">
-            Soluciones eléctricas integrales: obra nueva, reformas, reparaciones de llaves térmicas, 
-            instalaciones de llaves diferenciales, sistemas de domótica y cámaras de seguridad.
+            Soluciones eléctricas de obra nueva, urgencias, instalaciones, domótica, sistemas de seguridad, control de accesos, termotanques entre otros.
           </p>
 
           <div className="flex flex-col gap-3 sm:flex-row">
@@ -93,8 +92,8 @@ export function Hero() {
           />
           <div className="relative overflow-hidden rounded-2xl border border-border/70 bg-card shadow-2xl shadow-black/40">
             <Image
-              src="/images/portfolio/portfolio-3.jpg"
-              alt="Técnico electricista autorizado por UTE trabajando en tablero eléctrico en Piriápolis"
+              src="/images/portada.png"
+              alt="Técnico electricista Jorge realizando trabajos eléctricos en Piriápolis"
               width={800}
               height={600}
               priority

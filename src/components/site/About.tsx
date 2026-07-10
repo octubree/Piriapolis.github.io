@@ -60,7 +60,7 @@ export function About() {
               />
               <div className="overflow-hidden rounded-2xl border border-border/70 bg-card shadow-2xl shadow-black/40">
                 <Image
-                  src="/images/me.jpg"
+                  src="/images/sobre-mi.webp"
                   alt="Retrato de Jorge, técnico electricista en Piriápolis calificado"
                   width={600}
                   height={800}

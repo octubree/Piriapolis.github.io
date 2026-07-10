@@ -11,6 +11,7 @@ import {
   Phone,
   MessageSquare,
   Send,
+  CheckCircle2,
   type LucideIcon,
 } from "lucide-react";
 import { toast } from "sonner";
@@ -126,6 +127,7 @@ const CONTACT_INFO: ContactInfo[] = [
 
 export function Contact() {
   const [submitting, setSubmitting] = React.useState(false);
+  const [isSent, setIsSent] = React.useState(false);
   const [selectedFile, setSelectedFile] = React.useState<{
     filename: string;
     content: string;
@@ -229,6 +231,7 @@ export function Contact() {
       }
 
       toast.success("¡Mensaje enviado! Te responderé a la brevedad.");
+      setIsSent(true);
       reset();
       setSelectedFile(null);
       setFileError(null);
@@ -324,253 +327,276 @@ export function Contact() {
             transition={{ duration: 0.6 }}
             className="lg:col-span-7 rounded-2xl border border-border/70 bg-card/60 p-6 sm:p-8 animate-fade-in"
           >
-            <form
-              onSubmit={handleSubmit(onSubmit)}
-              className="flex flex-col gap-5"
-              aria-label="Formulario de contacto"
-              noValidate
-            >
-              {/* Nombre */}
-              <div className="flex flex-col gap-2">
-                <Label htmlFor="name">
-                  Nombre <span className="text-primary">*</span>
-                </Label>
-                <Input
-                  id="name"
-                  placeholder="Tu nombre"
-                  autoComplete="name"
-                  aria-invalid={!!errors.name}
-                  aria-describedby={errors.name ? "name-error" : undefined}
-                  {...register("name")}
-                />
-                {errors.name && (
-                  <p id="name-error" className="text-xs text-destructive">
-                    {errors.name.message}
-                  </p>
-                )}
-              </div>
-
-              {/* Preferencia de contacto */}
-              <div className="flex flex-col gap-2">
-                <Label>¿Cómo prefieres que te contacte? *</Label>
-                <div className="flex flex-wrap gap-5 pt-1">
-                  <div className="flex items-center gap-3 py-1">
-                    <Checkbox
-                      id="pref-wa"
-                      className="size-6 sm:size-5 border-primary/60 bg-background hover:border-primary data-[state=checked]:bg-primary data-[state=checked]:border-primary dark:bg-background dark:border-primary/60 dark:hover:border-primary cursor-pointer transition-colors shadow-sm"
-                      checked={wantsWhatsapp}
-                      onCheckedChange={(c) =>
-                        togglePreference("whatsapp", c === true)
-                      }
-                    />
-                    <Label
-                      htmlFor="pref-wa"
-                      className="cursor-pointer text-sm font-semibold text-foreground/85 hover:text-foreground select-none pl-0.5 transition-colors"
-                    >
-                      WhatsApp
-                    </Label>
-                  </div>
-                  <div className="flex items-center gap-3 py-1">
-                    <Checkbox
-                      id="pref-email"
-                      className="size-6 sm:size-5 border-primary/60 bg-background hover:border-primary data-[state=checked]:bg-primary data-[state=checked]:border-primary dark:bg-background dark:border-primary/60 dark:hover:border-primary cursor-pointer transition-colors shadow-sm"
-                      checked={wantsEmail}
-                      onCheckedChange={(c) =>
-                        togglePreference("email", c === true)
-                      }
-                    />
-                    <Label
-                      htmlFor="pref-email"
-                      className="cursor-pointer text-sm font-semibold text-foreground/85 hover:text-foreground select-none pl-0.5 transition-colors"
-                    >
-                      Email
-                    </Label>
-                  </div>
-                </div>
-                {errors.contact_preference && (
-                  <p className="text-xs text-destructive">
-                    {errors.contact_preference.message}
-                  </p>
-                )}
-              </div>
-
-              {/* WhatsApp conditional fields */}
-              <AnimatePresence initial={false}>
-                {wantsWhatsapp && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={{ opacity: 0, height: 0 }}
-                    transition={{ duration: 0.25 }}
-                    className="overflow-hidden"
-                  >
-                    <div className="flex flex-col gap-2 pb-1">
-                      <Label htmlFor="whatsapp_number">
-                        WhatsApp <span className="text-primary">*</span>
-                      </Label>
-                      <div className="grid grid-cols-[5.5rem_1fr] gap-2">
-                        <Select
-                          value={watch("whatsapp_country")}
-                          onValueChange={(v) =>
-                            setValue("whatsapp_country", v as "uy" | "ar", {
-                              shouldValidate: true,
-                              shouldDirty: true,
-                            })
-                          }
-                        >
-                          <SelectTrigger
-                            id="whatsapp_country"
-                            aria-label="País"
-                            aria-invalid={!!errors.whatsapp_country}
-                          >
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="uy">🇺🇾 UY</SelectItem>
-                            <SelectItem value="ar">🇦🇷 AR</SelectItem>
-                          </SelectContent>
-                        </Select>
-                        <Input
-                          id="whatsapp_number"
-                          type="tel"
-                          inputMode="tel"
-                          placeholder="Ej: 94588012"
-                          autoComplete="tel-national"
-                          aria-invalid={!!errors.whatsapp_number}
-                          aria-describedby={
-                            errors.whatsapp_number
-                              ? "whatsapp_number-error"
-                              : undefined
-                          }
-                          {...register("whatsapp_number")}
-                        />
-                      </div>
-                      {errors.whatsapp_number && (
-                        <p
-                          id="whatsapp_number-error"
-                          className="text-xs text-destructive"
-                        >
-                          {errors.whatsapp_number.message}
-                        </p>
-                      )}
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
-              {/* Email conditional field */}
-              <AnimatePresence initial={false}>
-                {wantsEmail && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={{ opacity: 0, height: 0 }}
-                    transition={{ duration: 0.25 }}
-                    className="overflow-hidden"
-                  >
-                    <div className="flex flex-col gap-2 pb-1">
-                      <Label htmlFor="email">
-                        Email <span className="text-primary">*</span>
-                      </Label>
-                      <Input
-                        id="email"
-                        type="email"
-                        placeholder="tu@email.com"
-                        autoComplete="email"
-                        aria-invalid={!!errors.email}
-                        aria-describedby={
-                          errors.email ? "email-error" : undefined
-                        }
-                        {...register("email")}
-                      />
-                      {errors.email && (
-                        <p id="email-error" className="text-xs text-destructive">
-                          {errors.email.message}
-                        </p>
-                      )}
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
-              {/* Asunto */}
-              <div className="flex flex-col gap-2">
-                <Label htmlFor="subject">Asunto del mensaje</Label>
-                <Input
-                  id="subject"
-                  placeholder="Ej: Presupuesto obra nueva"
-                  {...register("subject")}
-                />
-              </div>
-
-              {/* Mensaje */}
-              <div className="flex flex-col gap-2">
-                <Label htmlFor="message">
-                  Tu mensaje <span className="text-primary">*</span>
-                </Label>
-                <Textarea
-                  id="message"
-                  rows={5}
-                  placeholder="Contame qué necesitás..."
-                  aria-invalid={!!errors.message}
-                  aria-describedby={
-                    errors.message ? "message-error" : undefined
-                  }
-                  {...register("message")}
-                />
-                {errors.message && (
-                  <p id="message-error" className="text-xs text-destructive">
-                    {errors.message.message}
-                  </p>
-                )}
-              </div>
-
-              {/* Adjuntar Archivo */}
-              <div className="flex flex-col gap-2">
-                <Label htmlFor="file-upload" className="flex items-center gap-1.5">
-                  Adjuntar archivo <span className="text-xs text-muted-foreground">(Opcional · Máx 3MB)</span>
-                </Label>
-                <Input
-                  id="file-upload"
-                  type="file"
-                  accept=".jpg,.jpeg,.png,.webp,.heic,.pdf,.dwg,.dxf,.txt,.doc,.docx,.xls,.xlsx,.zip"
-                  onChange={handleFileChange}
-                  className="cursor-pointer file:mr-4 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-primary/20 file:text-primary hover:file:bg-primary/30 file:transition-colors file:cursor-pointer"
-                />
-                <p className="text-[11px] text-muted-foreground leading-relaxed">
-                  Formatos permitidos: Fotos (JPG, PNG, WebP), PDFs, planos de CAD (DWG, DXF), documentos de Office o archivos ZIP. No se permiten vídeos.
-                </p>
-                {fileError && (
-                  <p className="text-xs text-destructive font-medium">
-                    {fileError}
-                  </p>
-                )}
-              </div>
-
-              <Button
-                type="submit"
-                size="lg"
-                disabled={submitting}
-                className="group w-full sm:w-auto"
+            {isSent ? (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="flex flex-col items-center justify-center py-12 text-center"
               >
-                {submitting ? (
-                  <>
-                    <span className="size-4 animate-spin rounded-full border-2 border-primary-foreground/40 border-t-primary-foreground" />
-                    Enviando...
-                  </>
-                ) : (
-                  <>
-                    <Send className="size-4 transition-transform group-hover:translate-x-0.5" />
-                    Enviar Mensaje
-                  </>
-                )}
-              </Button>
+                <div className="flex size-16 items-center justify-center rounded-full bg-primary/15 text-primary ring-8 ring-primary/5">
+                  <CheckCircle2 className="size-10" />
+                </div>
+                <h3 className="mt-6 text-xl font-bold text-foreground">¡Mensaje Enviado con Éxito!</h3>
+                <p className="mt-3 max-w-sm text-sm text-muted-foreground leading-relaxed">
+                  Muchas gracias por contactarte. He recibido tu consulta y te responderé a la brevedad.
+                </p>
+                <Button
+                  onClick={() => setIsSent(false)}
+                  variant="outline"
+                  className="mt-8 border-border/70 hover:bg-secondary/40 cursor-pointer"
+                >
+                  Enviar otro mensaje
+                </Button>
+              </motion.div>
+            ) : (
+              <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="flex flex-col gap-5"
+                aria-label="Formulario de contacto"
+                noValidate
+              >
+                {/* Nombre */}
+                <div className="flex flex-col gap-2">
+                  <Label htmlFor="name">
+                    Nombre <span className="text-primary">*</span>
+                  </Label>
+                  <Input
+                    id="name"
+                    placeholder="Tu nombre"
+                    autoComplete="name"
+                    aria-invalid={!!errors.name}
+                    aria-describedby={errors.name ? "name-error" : undefined}
+                    {...register("name")}
+                  />
+                  {errors.name && (
+                    <p id="name-error" className="text-xs text-destructive">
+                      {errors.name.message}
+                    </p>
+                  )}
+                </div>
 
-              <p className="text-xs text-muted-foreground">
-                Al enviar aceptás que Jorge Electricidad te contacte para
-                responder tu consulta.
-              </p>
-            </form>
+                {/* Preferencia de contacto */}
+                <div className="flex flex-col gap-2">
+                  <Label>¿Cómo prefieres que te contacte? *</Label>
+                  <div className="flex flex-wrap gap-5 pt-1">
+                    <div className="flex items-center gap-3 py-1">
+                      <Checkbox
+                        id="pref-wa"
+                        className="size-6 sm:size-5 border-primary/60 bg-background hover:border-primary data-[state=checked]:bg-primary data-[state=checked]:border-primary dark:bg-background dark:border-primary/60 dark:hover:border-primary cursor-pointer transition-colors shadow-sm"
+                        checked={wantsWhatsapp}
+                        onCheckedChange={(c) =>
+                          togglePreference("whatsapp", c === true)
+                        }
+                      />
+                      <Label
+                        htmlFor="pref-wa"
+                        className="cursor-pointer text-sm font-semibold text-foreground/85 hover:text-foreground select-none pl-0.5 transition-colors"
+                      >
+                        WhatsApp
+                      </Label>
+                    </div>
+                    <div className="flex items-center gap-3 py-1">
+                      <Checkbox
+                        id="pref-email"
+                        className="size-6 sm:size-5 border-primary/60 bg-background hover:border-primary data-[state=checked]:bg-primary data-[state=checked]:border-primary dark:bg-background dark:border-primary/60 dark:hover:border-primary cursor-pointer transition-colors shadow-sm"
+                        checked={wantsEmail}
+                        onCheckedChange={(c) =>
+                          togglePreference("email", c === true)
+                        }
+                      />
+                      <Label
+                        htmlFor="pref-email"
+                        className="cursor-pointer text-sm font-semibold text-foreground/85 hover:text-foreground select-none pl-0.5 transition-colors"
+                      >
+                        Email
+                      </Label>
+                    </div>
+                  </div>
+                  {errors.contact_preference && (
+                    <p className="text-xs text-destructive">
+                      {errors.contact_preference.message}
+                    </p>
+                  )}
+                </div>
+
+                {/* WhatsApp conditional fields */}
+                <AnimatePresence initial={false}>
+                  {wantsWhatsapp && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.25 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="flex flex-col gap-2 pb-1">
+                        <Label htmlFor="whatsapp_number">
+                          WhatsApp <span className="text-primary">*</span>
+                        </Label>
+                        <div className="grid grid-cols-[5.5rem_1fr] gap-2">
+                          <Select
+                            value={watch("whatsapp_country")}
+                            onValueChange={(v) =>
+                              setValue("whatsapp_country", v as "uy" | "ar", {
+                                shouldValidate: true,
+                                shouldDirty: true,
+                              })
+                            }
+                          >
+                            <SelectTrigger
+                              id="whatsapp_country"
+                              aria-label="País"
+                              aria-invalid={!!errors.whatsapp_country}
+                            >
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="uy">🇺🇾 UY</SelectItem>
+                              <SelectItem value="ar">🇦🇷 AR</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <Input
+                            id="whatsapp_number"
+                            type="tel"
+                            inputMode="tel"
+                            placeholder="Ej: 94588012"
+                            autoComplete="tel-national"
+                            aria-invalid={!!errors.whatsapp_number}
+                            aria-describedby={
+                              errors.whatsapp_number
+                                ? "whatsapp_number-error"
+                                : undefined
+                            }
+                            {...register("whatsapp_number")}
+                          />
+                        </div>
+                        {errors.whatsapp_number && (
+                          <p
+                            id="whatsapp_number-error"
+                            className="text-xs text-destructive"
+                          >
+                            {errors.whatsapp_number.message}
+                          </p>
+                        )}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+                {/* Email conditional field */}
+                <AnimatePresence initial={false}>
+                  {wantsEmail && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.25 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="flex flex-col gap-2 pb-1">
+                        <Label htmlFor="email">
+                          Email <span className="text-primary">*</span>
+                        </Label>
+                        <Input
+                          id="email"
+                          type="email"
+                          placeholder="tu@email.com"
+                          autoComplete="email"
+                          aria-invalid={!!errors.email}
+                          aria-describedby={
+                            errors.email ? "email-error" : undefined
+                          }
+                          {...register("email")}
+                        />
+                        {errors.email && (
+                          <p id="email-error" className="text-xs text-destructive">
+                            {errors.email.message}
+                          </p>
+                        )}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+                {/* Asunto */}
+                <div className="flex flex-col gap-2">
+                  <Label htmlFor="subject">Asunto del mensaje</Label>
+                  <Input
+                    id="subject"
+                    placeholder="Ej: Presupuesto obra nueva"
+                    {...register("subject")}
+                  />
+                </div>
+
+                {/* Mensaje */}
+                <div className="flex flex-col gap-2">
+                  <Label htmlFor="message">
+                    Tu mensaje <span className="text-primary">*</span>
+                  </Label>
+                  <Textarea
+                    id="message"
+                    rows={5}
+                    placeholder="Contame qué necesitás..."
+                    aria-invalid={!!errors.message}
+                    aria-describedby={
+                      errors.message ? "message-error" : undefined
+                    }
+                    {...register("message")}
+                  />
+                  {errors.message && (
+                    <p id="message-error" className="text-xs text-destructive">
+                      {errors.message.message}
+                    </p>
+                  )}
+                </div>
+
+                {/* Adjuntar Archivo */}
+                <div className="flex flex-col gap-2">
+                  <Label htmlFor="file-upload" className="flex items-center gap-1.5">
+                    Adjuntar archivo <span className="text-xs text-muted-foreground">(Opcional · Máx 3MB)</span>
+                  </Label>
+                  <Input
+                    id="file-upload"
+                    type="file"
+                    accept=".jpg,.jpeg,.png,.webp,.heic,.pdf,.dwg,.dxf,.txt,.doc,.docx,.xls,.xlsx,.zip"
+                    onChange={handleFileChange}
+                    className="cursor-pointer file:mr-4 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-primary/20 file:text-primary hover:file:bg-primary/30 file:transition-colors file:cursor-pointer"
+                  />
+                  <p className="text-[11px] text-muted-foreground leading-relaxed">
+                    Formatos permitidos: Fotos (JPG, PNG, WebP), PDFs, planos de CAD (DWG, DXF), documentos de Office o archivos ZIP. No se permiten vídeos.
+                  </p>
+                  {fileError && (
+                    <p className="text-xs text-destructive font-medium">
+                      {fileError}
+                    </p>
+                  )}
+                </div>
+
+                <Button
+                  type="submit"
+                  size="lg"
+                  disabled={submitting}
+                  className="group w-full sm:w-auto"
+                >
+                  {submitting ? (
+                    <>
+                      <span className="size-4 animate-spin rounded-full border-2 border-primary-foreground/40 border-t-primary-foreground" />
+                      Enviando...
+                    </>
+                  ) : (
+                    <>
+                      <Send className="size-4 transition-transform group-hover:translate-x-0.5" />
+                      Enviar Mensaje
+                    </>
+                  )}
+                </Button>
+
+                <p className="text-xs text-muted-foreground">
+                  Al enviar aceptás que Jorge Electricidad te contacte para
+                  responder tu consulta.
+                </p>
+              </form>
+            )}
           </motion.div>
         </div>
       </div>

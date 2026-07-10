@@ -241,12 +241,12 @@ export function Testimonials() {
         >
           <Button asChild variant="outline" className="border-border/70">
             <a
-              href="https://g.page/r/CdfmP2-v1xoNp3Zm/review"
+              href="https://share.google/os2XIqgPsXeImirE5"
               target="_blank"
               rel="noopener noreferrer"
             >
               <Star className="size-4 text-primary" fill="currentColor" />
-              Ver perfil comercial en Google
+              Ver opiniones en Google Negocio
             </a>
           </Button>
         </motion.div>
