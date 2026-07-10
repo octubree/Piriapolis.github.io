@@ -1,0 +1,152 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --radius: 0.75rem;
+
+  /* Premium deep black background */
+  --background: oklch(0.08 0.005 35);
+  --foreground: oklch(0.98 0.005 60);
+
+  /* Cards slightly lighter charcoal with a warm undertone */
+  --card: oklch(0.13 0.01 40);
+  --card-foreground: oklch(0.98 0.005 60);
+
+  --popover: oklch(0.13 0.01 40);
+  --popover-foreground: oklch(0.98 0.005 60);
+
+  /* Premium brand orange/amber color */
+  --primary: oklch(0.72 0.21 45);
+  --primary-foreground: oklch(0.1 0.02 45);
+
+  --secondary: oklch(0.18 0.015 45);
+  --secondary-foreground: oklch(0.98 0.005 60);
+
+  --muted: oklch(0.15 0.01 45);
+  --muted-foreground: oklch(0.68 0.025 50);
+
+  --accent: oklch(0.2 0.035 45);
+  --accent-foreground: oklch(0.98 0.005 60);
+
+  --destructive: oklch(0.62 0.19 28);
+
+  /* Subtle borders — white at low opacity over dark */
+  --border: oklch(1 0 0 / 7%);
+  --input: oklch(1 0 0 / 10%);
+  --ring: color-mix(in oklch, var(--primary) 60%, transparent);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
+  body {
+    @apply bg-background text-foreground;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  ::selection {
+    background: color-mix(in oklch, var(--primary) 30%, transparent);
+    color: oklch(0.98 0.005 60);
+  }
+}
+
+/* Custom scrollbar — thin, thumb uses --primary on background track */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in oklch, var(--primary) 40%, transparent) transparent;
+}
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-track {
+  background: var(--background);
+}
+*::-webkit-scrollbar-thumb {
+  background: color-mix(in oklch, var(--primary) 35%, transparent);
+  border-radius: 9999px;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in oklch, var(--primary) 60%, transparent);
+}
+
+/* WhatsApp pulse animation using brand --primary */
+@keyframes wa-pulse {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in oklch, var(--primary) 55%, transparent);
+  }
+  70% {
+    box-shadow: 0 0 0 16px transparent;
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+.wa-pulse {
+  animation: wa-pulse 2.4s infinite;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   GLOW UTILITIES — Pure theme-driven values (uses var(--primary))
+   ───────────────────────────────────────────────────────────────────────── */
+
+/* Hero top-right radial background glow */
+.hero-bg-glow {
+  background: radial-gradient(
+    60% 50% at 70% 0%,
+    color-mix(in oklch, var(--primary) 20%, transparent) 0%,
+    color-mix(in oklch, var(--primary) 6%, transparent) 35%,
+    transparent 70%
+  );
+}
+
+/* Service Card hover glow */
+.service-card-hover-glow {
+  background: radial-gradient(
+    80% 50% at 50% 0%,
+    color-mix(in oklch, var(--primary) 12%, transparent) 0%,
+    transparent 70%
+  );
+}
+
+/* Testimonials background glow */
+.testimonials-bg-glow {
+  background: radial-gradient(
+    50% 50% at 50% 50%,
+    color-mix(in oklch, var(--primary) 8%, transparent) 0%,
+    transparent 70%
+  );
+}

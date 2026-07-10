@@ -1,0 +1,278 @@
+"use client";
+
+import * as React from "react";
+import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
+import { ChevronLeft, ChevronRight, Image as ImageIcon } from "lucide-react";
+
+import { cn } from "@/lib/utils";
+import { Badge } from "@/components/ui/badge";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogClose,
+} from "@/components/ui/dialog";
+import { SectionHeading } from "@/components/site/SectionHeading";
+import { optimizeImage } from "@/lib/image-cdn";
+
+// Import portfolio data directly
+import portfolioData from "@/data/portfolio.json";
+
+const CATEGORY_MAP: Record<string, string> = {
+  "filter-card": "Luminarias",
+  "filter-app": "Instalaciones",
+  "filter-web": "Firma UTE",
+};
+
+const GALLERY_FILTERS = ["Todas", "Luminarias", "Instalaciones", "Firma UTE"] as const;
+type GalleryCategory = (typeof GALLERY_FILTERS)[number];
+
+type GalleryItem = {
+  id: string;
+  imageUrl: string;
+  altText: string;
+  category: Exclude<GalleryCategory, "Todas">;
+  description: string;
+};
+
+// Map raw data and inject SEO-optimized alt texts dynamically (invisible to users but indexed by search engines)
+const GALLERY_ITEMS: GalleryItem[] = portfolioData.map((item, idx) => {
+  const categoryLabel = (CATEGORY_MAP[item.category] || "Instalaciones") as Exclude<GalleryCategory, "Todas">;
+  
+  let altText = item.alt;
+  if (!altText || altText.trim() === "") {
+    if (item.category === "filter-web") {
+      altText = `Firma de UTE y habilitación eléctrica en Piriápolis realizada por técnico autorizado`;
+    } else if (item.category === "filter-card") {
+      altText = `Instalación de luminaria y diseño de iluminación por electricista en Piriápolis`;
+    } else {
+      altText = `Instalación eléctrica residencial realizada en Piriápolis por técnico calificado`;
+    }
+  }
+
+  return {
+    id: `photo-${idx}`,
+    imageUrl: item.src,
+    altText: altText,
+    category: categoryLabel,
+    description: altText,
+  };
+});
+
+export function Gallery() {
+  const [filter, setFilter] = React.useState<GalleryCategory>("Todas");
+  const [selected, setSelected] = React.useState<GalleryItem | null>(null);
+
+  const filtered = React.useMemo(() => {
+    return filter === "Todas"
+      ? GALLERY_ITEMS
+      : GALLERY_ITEMS.filter((i) => i.category === filter);
+  }, [filter]);
+
+  const handlePrev = React.useCallback(() => {
+    if (!selected || filtered.length <= 1) return;
+    const currentIndex = filtered.findIndex((i) => i.id === selected.id);
+    if (currentIndex === -1) return;
+    const prevIndex = (currentIndex - 1 + filtered.length) % filtered.length;
+    setSelected(filtered[prevIndex]);
+  }, [selected, filtered]);
+
+  const handleNext = React.useCallback(() => {
+    if (!selected || filtered.length <= 1) return;
+    const currentIndex = filtered.findIndex((i) => i.id === selected.id);
+    if (currentIndex === -1) return;
+    const nextIndex = (currentIndex + 1) % filtered.length;
+    setSelected(filtered[nextIndex]);
+  }, [selected, filtered]);
+
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!selected) return;
+      if (e.key === "ArrowLeft") {
+        handlePrev();
+      } else if (e.key === "ArrowRight") {
+        handleNext();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [selected, handlePrev, handleNext]);
+
+  return (
+    <section id="trabajos" className="relative scroll-mt-20 py-20 sm:py-28">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <SectionHeading
+          eyebrow="Fotos"
+          title="Trabajos Realizados"
+          subtitle="Una muestra visual de mis instalaciones eléctricas, firmas de UTE y trabajos de iluminación realizados en Piriápolis y zonas aledañas."
+        />
+
+        {/* Filters */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4 }}
+          className="mt-10 flex flex-wrap items-center justify-center gap-2"
+          role="tablist"
+          aria-label="Filtrar trabajos por categoría"
+        >
+          {GALLERY_FILTERS.map((f) => {
+            const isActive = f === filter;
+            return (
+              <button
+                key={f}
+                role="tab"
+                aria-selected={isActive}
+                onClick={() => setFilter(f)}
+                className={cn(
+                  "relative rounded-full border px-4 py-1.5 text-sm font-medium transition-colors cursor-pointer",
+                  isActive
+                    ? "border-primary/50 text-primary-foreground"
+                    : "border-border/70 text-muted-foreground hover:border-border hover:text-foreground"
+                )}
+              >
+                {isActive && (
+                  <motion.span
+                    layoutId="gallery-filter"
+                    className="absolute inset-0 -z-10 rounded-full bg-primary"
+                    transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                  />
+                )}
+                {f}
+              </button>
+            );
+          })}
+        </motion.div>
+
+        {/* Grid */}
+        <LayoutGroup>
+          <motion.div
+            layout
+            className="mt-10 grid grid-cols-2 gap-4 sm:gap-5 md:grid-cols-3"
+          >
+            <AnimatePresence mode="popLayout">
+              {filtered.map((item) => (
+                <motion.button
+                  layout
+                  key={item.id}
+                  initial={{ opacity: 0, scale: 0.92 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.92 }}
+                  transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                  onClick={() => setSelected(item)}
+                  className={cn(
+                    "group relative aspect-square overflow-hidden rounded-2xl border border-border/70 bg-card text-left transition-all duration-300 cursor-pointer",
+                    "hover:-translate-y-1 hover:border-primary/40 hover:shadow-2xl hover:shadow-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+                  )}
+                  aria-label={`Ver ${item.altText}`}
+                >
+                  <img
+                    src={optimizeImage(item.imageUrl, 500)}
+                    alt={item.altText}
+                    loading="lazy"
+                    className="absolute inset-0 size-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  {/* gradient overlay */}
+                  <div
+                    aria-hidden
+                    className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-transparent opacity-75 transition-opacity duration-300 group-hover:opacity-90"
+                  />
+                  {/* category badge */}
+                  <div className="absolute left-3 top-3">
+                    <Badge
+                      variant="outline"
+                      className="border-white/20 bg-black/45 text-[10px] text-white backdrop-blur-sm"
+                    >
+                      {item.category}
+                    </Badge>
+                  </div>
+                  {/* title */}
+                  <div className="absolute inset-x-0 bottom-0 p-3 sm:p-4">
+                    <h3 className="text-sm font-semibold text-white line-clamp-2 leading-tight sm:text-base">
+                      {item.altText}
+                    </h3>
+                  </div>
+                </motion.button>
+              ))}
+            </AnimatePresence>
+          </motion.div>
+        </LayoutGroup>
+      </div>
+
+      {/* Lightbox */}
+      <Dialog
+        open={!!selected}
+        onOpenChange={(o) => !o && setSelected(null)}
+      >
+        <DialogContent className="max-w-3xl border-border/70 bg-background/95 p-0 backdrop-blur-xl sm:max-w-3xl">
+          {selected && (
+            <>
+              <div className="relative aspect-[16/10] w-full overflow-hidden rounded-t-lg bg-zinc-950/60 flex items-center justify-center sm:aspect-[16/9]">
+                <img
+                  src={selected.imageUrl}
+                  alt={selected.altText}
+                  className="max-h-full max-w-full object-contain"
+                />
+                <div className="absolute left-4 top-4">
+                  <Badge className="bg-primary/95 text-primary-foreground font-semibold">
+                    {selected.category}
+                  </Badge>
+                </div>
+
+                {/* Navigation arrows */}
+                {filtered.length > 1 && (
+                  <>
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handlePrev();
+                      }}
+                      className="absolute left-4 top-1/2 -translate-y-1/2 z-50 flex size-10 items-center justify-center rounded-full border border-white/10 bg-black/40 text-white backdrop-blur-md transition-all hover:bg-black/75 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/50 cursor-pointer"
+                      aria-label="Foto anterior"
+                    >
+                      <ChevronLeft className="size-6" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleNext();
+                      }}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 z-50 flex size-10 items-center justify-center rounded-full border border-white/10 bg-black/40 text-white backdrop-blur-md transition-all hover:bg-black/75 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/50 cursor-pointer"
+                      aria-label="Foto siguiente"
+                    >
+                      <ChevronRight className="size-6" />
+                    </button>
+                  </>
+                )}
+              </div>
+              <DialogHeader className="px-6 pb-6 pt-4">
+                <DialogTitle className="text-xl flex items-center gap-2">
+                  <ImageIcon className="size-5 text-primary" />
+                  {selected.altText}
+                </DialogTitle>
+                <DialogDescription className="text-sm leading-relaxed text-muted-foreground mt-1">
+                  Fotografía de trabajo real en Piriápolis. Ofrecemos asesoramiento, presupuestos y garantía escrita.
+                </DialogDescription>
+                <div className="mt-4">
+                  <DialogClose asChild>
+                    <a
+                      href="#contacto"
+                      className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+                    >
+                      Consultar por este servicio
+                    </a>
+                  </DialogClose>
+                </div>
+              </DialogHeader>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
+    </section>
+  );
+}
