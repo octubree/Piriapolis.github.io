@@ -82,7 +82,7 @@ export const ABOUT_BIO =
 
 export const ABOUT_HIGHLIGHTS = [
   { label: "+5 años de experiencia", icon: "calendar" as const },
-  { label: "Formación UTU & Ingeniería", icon: "graduation" as const },
+  { label: "Formación en UTU", icon: "graduation" as const },
   { label: "Trabajos con firma de UTE", icon: "badge" as const },
   { label: "Piriápolis, Uruguay", icon: "map" as const },
 ];
