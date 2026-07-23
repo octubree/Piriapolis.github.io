@@ -20,11 +20,11 @@ const FAVICON = "https://ellwinan.sirv.com/electricidad.png?profile=Example&w=19
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Electricista Piriápolis | Técnico Electricista | Urgencias 24h",
+    default: "Electricista Piriápolis | Técnico Electricista | Urgencias",
     template: "%s | Electricista Piriápolis",
   },
   description:
-    "Técnico electricista en Piriápolis, Uruguay. Más de 5 años de experiencia. Firma de UTE, instalaciones comerciales y residenciales, reformas, cámaras de seguridad, domótica y urgencias eléctricas 24 hs.",
+    "Técnico electricista en Piriápolis, Uruguay. Más de 5 años de experiencia. Firma de UTE, instalaciones comerciales y residenciales, reformas, cámaras de seguridad, domótica y urgencias eléctricas.",
   keywords: [
     "electricista piriapolis",
     "electricista en piriapolis",
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Electricista Piriápolis | Técnico Electricista | Jorge",
     description:
-      "Técnico electricista en Piriápolis. Firma de UTE, instalaciones, reformas, cámaras de seguridad y urgencias eléctricas 24 hs.",
+      "Técnico electricista en Piriápolis. Firma de UTE, instalaciones, reformas, cámaras de seguridad y urgencias eléctricas.",
     url: SITE_URL,
     siteName: "Electricista Piriápolis",
     type: "website",
@@ -65,7 +65,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Electricista Piriápolis | Técnico Electricista",
     description:
-      "Técnico electricista en Piriápolis. Trabajos con firma de UTE y urgencias 24h.",
+      "Técnico electricista en Piriápolis. Trabajos con firma de UTE y urgencias.",
     images: [OG_IMAGE],
   },
   icons: {
@@ -132,7 +132,7 @@ const electricianJsonLd = {
         "@type": "Offer",
         "itemOffered": {
           "@type": "Service",
-          "name": "Urgencias Eléctricas 24 Horas"
+          "name": "Urgencias Eléctricas"
         }
       },
       {

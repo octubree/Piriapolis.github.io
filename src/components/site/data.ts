@@ -34,10 +34,10 @@ export const SERVICES: ServiceItem[] = [
     icon: "zap",
     title: "Electricidad",
     description:
-      "Ofrezco servicios completos de electricidad en Piriápolis, incluyendo obra nueva, reformas eléctricas, atención de urgencias eléctricas 24 horas, reconexiones, instalaciones eléctricas generales, protecciones, mantenimiento de motores y bombas, solución de problemas de energía reactiva, instalación de luminarias, automatismos y termotanques.",
+      "Ofrezco servicios completos de electricidad en Piriápolis, incluyendo obra nueva, reformas eléctricas, atención de urgencias eléctricas, reconexiones, instalaciones eléctricas generales, protecciones, mantenimiento de motores y bombas, solución de problemas de energía reactiva, instalación de luminarias, automatismos y termotanques.",
     items: [
       "Obra nueva y reformas",
-      "Urgencias eléctricas 24 horas",
+      "Urgencias eléctricas",
       "Instalaciones en general",
       "Protecciones y tableros",
       "Motores y bombas de agua",

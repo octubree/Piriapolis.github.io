@@ -23,7 +23,7 @@ export function Footer() {
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">
               Técnico electricista calificado. Instalaciones, reformas,
-              firmas de UTE y urgencias eléctricas 24 hs en Piriápolis.
+              firmas de UTE y urgencias eléctricas en Piriápolis.
             </p>
           </div>
 
