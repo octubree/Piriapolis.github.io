@@ -21,12 +21,13 @@ import { optimizeImage } from "@/lib/image-cdn";
 import portfolioData from "@/data/portfolio.json";
 
 const CATEGORY_MAP: Record<string, string> = {
+  "filter-electricidad": "Electricidad",
   "filter-card": "Luminarias",
   "filter-app": "Instalaciones",
   "filter-web": "Firma UTE",
 };
 
-const GALLERY_FILTERS = ["Todas", "Luminarias", "Instalaciones", "Firma UTE"] as const;
+const GALLERY_FILTERS = ["Todas", "Electricidad", "Luminarias", "Instalaciones", "Firma UTE"] as const;
 type GalleryCategory = (typeof GALLERY_FILTERS)[number];
 
 type GalleryItem = {
