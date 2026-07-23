@@ -303,7 +303,7 @@ export default function AdminPage() {
           <p className="text-sm">No hay fotos que coincidan con la búsqueda o filtro.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
           {filteredPhotos.map((photo) => {
             const originalIndex = photos.findIndex((p) => p === photo);
             return (
