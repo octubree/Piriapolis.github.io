@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Zap, Phone, Menu } from "lucide-react";
 
@@ -77,14 +78,16 @@ export function Navbar() {
         {/* Logo */}
         <Link
           href="/#inicio"
-          className="group flex items-center gap-2.5 font-semibold tracking-tight"
+          className="group flex items-center gap-2 transition-opacity hover:opacity-90"
         >
-          <span className="flex size-9 items-center justify-center rounded-lg bg-primary/15 text-primary ring-1 ring-primary/30 transition-all group-hover:bg-primary/25 group-hover:ring-primary/50">
-            <Zap className="size-5" fill="currentColor" />
-          </span>
-          <span className="text-base sm:text-lg">
-            Electricista <span className="text-primary">Piriápolis</span>
-          </span>
+          <Image
+            src="/logo.svg"
+            alt="Electricista Piriápolis Jorge"
+            width={180}
+            height={55}
+            className="h-10 sm:h-11 w-auto object-contain"
+            priority
+          />
         </Link>
 
         {/* Desktop nav */}
@@ -148,13 +151,16 @@ export function Navbar() {
             >
               <div>
                 <SheetHeader className="pb-2">
-                  <SheetTitle className="flex items-center gap-2.5 text-left">
-                    <span className="flex size-8 items-center justify-center rounded-lg bg-primary/15 text-primary ring-1 ring-primary/30">
-                      <Zap className="size-4" fill="currentColor" />
-                    </span>
-                    <span>
-                      Electricista <span className="text-primary">Piriápolis</span>
-                    </span>
+                  <SheetTitle className="flex items-center text-left">
+                    <Link href="/#inicio" onClick={() => setOpen(false)}>
+                      <Image
+                        src="/logo.svg"
+                        alt="Electricista Piriápolis Jorge"
+                        width={160}
+                        height={50}
+                        className="h-9 w-auto object-contain"
+                      />
+                    </Link>
                   </SheetTitle>
                 </SheetHeader>
 

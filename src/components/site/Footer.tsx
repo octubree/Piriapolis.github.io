@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Zap, Phone, Mail, MapPin } from "lucide-react";
+import Image from "next/image";
+import { Phone, Mail, MapPin } from "lucide-react";
 
 import { BUSINESS, NAV_LINKS } from "@/components/site/data";
 
@@ -12,14 +13,15 @@ export function Footer() {
           <div>
             <Link
               href="/#inicio"
-              className="inline-flex items-center gap-2.5 font-semibold tracking-tight"
+              className="inline-flex items-center transition-opacity hover:opacity-90"
             >
-              <span className="flex size-9 items-center justify-center rounded-lg bg-primary/15 text-primary ring-1 ring-primary/30">
-                <Zap className="size-5" fill="currentColor" />
-              </span>
-              <span className="text-base">
-                Electricista <span className="text-primary">Piriápolis</span>
-              </span>
+              <Image
+                src="/logo.svg"
+                alt="Electricista Piriápolis Jorge"
+                width={180}
+                height={55}
+                className="h-11 w-auto object-contain"
+              />
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">
               Técnico electricista calificado. Instalaciones, reformas,
