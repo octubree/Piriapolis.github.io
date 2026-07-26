@@ -92,13 +92,11 @@ export function Hero() {
           />
           <div className="relative overflow-hidden rounded-2xl border border-border/70 bg-card shadow-2xl shadow-black/40">
             <Image
-              src="/images/portada.png"
+              src="/images/portada.webp"
               alt="Técnico electricista Jorge realizando trabajos eléctricos en Piriápolis"
               width={800}
               height={600}
-              priority
-              fetchPriority="high"
-              sizes="50vw"
+              sizes="(min-width: 1024px) 50vw, 100vw"
               className="aspect-[4/3] w-full object-cover"
             />
             <div
