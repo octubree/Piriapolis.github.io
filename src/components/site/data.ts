@@ -8,7 +8,7 @@ export const BUSINESS = {
     "https://wa.me/59894588012?text=Hola%20Jorge%2C%20quiero%20consultar%20por%20un%20servicio%20de%20electricidad%20en%20Piri%C3%A1polis",
   email: "jorgitobaliero@gmail.com",
   location: "Piriápolis, Uruguay",
-  web: "electricista-piria.top",
+  web: "electricista-piriapolis.com",
 } as const;
 
 export const NAV_LINKS = [

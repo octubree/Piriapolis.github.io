@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const SITE_URL = "https://electricista-piria.top";
+const SITE_URL = "https://electricista-piriapolis.com";
 const OG_IMAGE = "https://ellwinan.sirv.com/electricidad.png?profile=Example&w=1200&h=630";
 const FAVICON = "https://ellwinan.sirv.com/electricidad.png?profile=Example&w=192&h=192";
 
@@ -100,7 +100,7 @@ const electricianJsonLd = {
     "Técnico electricista en Piriápolis, Uruguay. Ofrezco servicios de instalaciones, reformas, reparaciones, urgencias eléctricas, cámaras de seguridad y domótica con firma de UTE.",
   telephone: "+59894588012",
   url: SITE_URL,
-  image: "https://electricista-piria.top/assets/img/me.jpg",
+  image: "https://electricista-piriapolis.com/assets/img/me.jpg",
   email: "jorgitobaliero@gmail.com",
   address: {
     "@type": "PostalAddress",

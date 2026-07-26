@@ -129,7 +129,7 @@ function buildEmailHtml(
         </tbody>
       </table>
       <div style="padding:14px 24px;background:#f8fafc;font-size:12px;color:#64748b;border-top:1px solid #e2e8f0;">
-        Este mensaje fue enviado desde el formulario de contacto de electricista-piria.top
+        Este mensaje fue enviado desde el formulario de contacto de electricista-piriapolis.com
       </div>
     </div>
   `;

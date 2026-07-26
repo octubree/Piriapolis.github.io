@@ -11,7 +11,7 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/admin", "/api"],
       },
     ],
-    sitemap: "https://electricista-piria.top/sitemap.xml",
-    host: "https://electricista-piria.top",
+    sitemap: "https://electricista-piriapolis.com/sitemap.xml",
+    host: "https://electricista-piriapolis.com",
   };
 }
