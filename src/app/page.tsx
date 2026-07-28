@@ -1,12 +1,18 @@
 import { Navbar } from "@/components/site/Navbar";
 import { Hero } from "@/components/site/Hero";
-import { Services } from "@/components/site/Services";
-import { About } from "@/components/site/About";
 import { Footer } from "@/components/site/Footer";
 import { WhatsappButton } from "@/components/site/WhatsappButton";
 import { ScrollToTopButton } from "@/components/site/ScrollToTopButton";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import dynamic from "next/dynamic";
+
+const Services = dynamic(() => import("@/components/site/Services").then((mod) => mod.Services), {
+  loading: () => <div className="min-h-[500px] animate-pulse bg-muted/10" />,
+});
+
+const About = dynamic(() => import("@/components/site/About").then((mod) => mod.About), {
+  loading: () => <div className="min-h-[500px] animate-pulse bg-muted/10" />,
+});
 
 const Testimonials = dynamic(() => import("@/components/site/Testimonials").then((mod) => mod.Testimonials), {
   loading: () => <div className="min-h-[400px] animate-pulse bg-muted/10" />,

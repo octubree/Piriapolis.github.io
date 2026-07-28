@@ -81,7 +81,7 @@ export function Navbar() {
           className="group flex items-center gap-2 transition-opacity hover:opacity-90"
         >
           <Image
-            src="/logo.svg"
+            src="/logo.webp"
             alt="Electricista Piriápolis Jorge"
             width={180}
             height={55}
@@ -154,7 +154,7 @@ export function Navbar() {
                   <SheetTitle className="flex items-center text-left">
                     <Link href="/#inicio" onClick={() => setOpen(false)}>
                       <Image
-                        src="/logo.svg"
+                        src="/logo.webp"
                         alt="Electricista Piriápolis Jorge"
                         width={160}
                         height={50}

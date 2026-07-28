@@ -16,7 +16,7 @@ export function Footer() {
               className="inline-flex items-center transition-opacity hover:opacity-90"
             >
               <Image
-                src="/logo.svg"
+                src="/logo.webp"
                 alt="Electricista Piriápolis Jorge"
                 width={180}
                 height={55}
