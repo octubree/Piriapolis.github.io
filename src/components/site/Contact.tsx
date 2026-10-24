@@ -12,6 +12,8 @@ import {
   MessageSquare,
   Send,
   CheckCircle2,
+  Copy,
+  Check,
   type LucideIcon,
 } from "lucide-react";
 import { toast } from "sonner";
@@ -128,11 +130,60 @@ const CONTACT_INFO: ContactInfo[] = [
 export function Contact() {
   const [submitting, setSubmitting] = React.useState(false);
   const [isSent, setIsSent] = React.useState(false);
+  const [copiedEmail, setCopiedEmail] = React.useState(false);
   const [selectedFile, setSelectedFile] = React.useState<{
     filename: string;
     content: string;
   } | null>(null);
   const [fileError, setFileError] = React.useState<string | null>(null);
+
+  const handleCopyEmail = React.useCallback(
+    async (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const emailToCopy = BUSINESS.email;
+      let copied = false;
+
+      if (typeof navigator !== "undefined" && navigator.clipboard?.writeText) {
+        try {
+          await navigator.clipboard.writeText(emailToCopy);
+          copied = true;
+        } catch {
+          copied = false;
+        }
+      }
+
+      if (!copied && typeof document !== "undefined") {
+        const textArea = document.createElement("textarea");
+        textArea.value = emailToCopy;
+        textArea.setAttribute("readonly", "");
+        textArea.style.position = "fixed";
+        textArea.style.top = "0";
+        textArea.style.left = "0";
+        textArea.style.opacity = "0";
+        textArea.style.pointerEvents = "none";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        textArea.setSelectionRange(0, emailToCopy.length);
+        try {
+          copied = document.execCommand("copy");
+        } catch {
+          copied = false;
+        }
+        document.body.removeChild(textArea);
+      }
+
+      if (copied) {
+        setCopiedEmail(true);
+        toast.success("Correo copiado al portapapeles");
+        setTimeout(() => setCopiedEmail(false), 2000);
+      } else {
+        toast.error("No se pudo copiar automáticamente");
+      }
+    },
+    []
+  );
 
   const {
     register,
@@ -272,29 +323,61 @@ export function Contact() {
             {CONTACT_INFO.map((info) => {
               const Icon = info.icon;
               const isExternal = info.href.startsWith("http");
+              const isEmail = info.label === "Email";
               return (
-                <a
+                <div
                   key={info.label}
-                  href={info.href}
-                  target={isExternal ? "_blank" : undefined}
-                  rel={isExternal ? "noopener noreferrer" : undefined}
                   className={cn(
-                    "group flex flex-col gap-3 rounded-2xl border border-border/70 bg-card/60 p-5 transition-all duration-300",
+                    "group relative flex flex-col gap-3 rounded-2xl border border-border/70 bg-card/60 p-5 transition-all duration-300",
                     "hover:-translate-y-0.5 hover:border-primary/40 hover:bg-card/80"
                   )}
                 >
-                  <span className="flex size-11 items-center justify-center rounded-xl bg-primary/15 text-primary ring-1 ring-primary/25 transition-all group-hover:bg-primary/25 group-hover:ring-primary/45">
-                    <Icon className="size-5" />
-                  </span>
+                  <div className="flex items-start justify-between gap-2">
+                    <span className="flex size-11 items-center justify-center rounded-xl bg-primary/15 text-primary ring-1 ring-primary/25 transition-all group-hover:bg-primary/25 group-hover:ring-primary/45">
+                      <Icon className="size-5" />
+                    </span>
+
+                    {isEmail && (
+                      <button
+                        type="button"
+                        onClick={handleCopyEmail}
+                        aria-label="Copiar correo electrónico al portapapeles"
+                        className={cn(
+                          "relative z-10 inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs font-medium transition-all cursor-pointer select-none",
+                          copiedEmail
+                            ? "border-emerald-500/40 bg-emerald-500/15 text-emerald-400"
+                            : "border-border/80 bg-background/70 text-muted-foreground hover:border-primary/50 hover:bg-primary/15 hover:text-primary active:scale-95"
+                        )}
+                      >
+                        {copiedEmail ? (
+                          <>
+                            <Check className="size-3.5" />
+                            <span>¡Copiado!</span>
+                          </>
+                        ) : (
+                          <>
+                            <Copy className="size-3.5" />
+                            <span>Copiar</span>
+                          </>
+                        )}
+                      </button>
+                    )}
+                  </div>
+
                   <div>
                     <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
                       {info.label}
                     </p>
-                    <p className="mt-1 break-words text-sm font-medium text-foreground">
+                    <a
+                      href={info.href}
+                      target={isExternal ? "_blank" : undefined}
+                      rel={isExternal ? "noopener noreferrer" : undefined}
+                      className="mt-1 block break-words text-sm font-medium text-foreground after:absolute after:inset-0 after:rounded-2xl focus:outline-none"
+                    >
                       {info.value}
-                    </p>
+                    </a>
                   </div>
-                </a>
+                </div>
               );
             })}
 

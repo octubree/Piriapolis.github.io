@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
-import { ChevronLeft, ChevronRight, Image as ImageIcon, ArrowLeft, ArrowRight, Grid } from "lucide-react";
+import { ChevronLeft, ChevronRight, ArrowLeft, ArrowRight, Grid } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
@@ -69,27 +69,28 @@ type GalleryItem = {
   description: string;
 };
 
-// Map raw data and inject SEO-optimized alt texts dynamically
+// Map raw data: keep SEO altText for <img alt>, but only set description if item.alt actually has text
 const GALLERY_ITEMS: GalleryItem[] = portfolioData.map((item, idx) => {
   const categoryLabel = (CATEGORY_MAP[item.category] || "Instalaciones") as GalleryCategory;
+  const rawDescription = item.alt ? item.alt.trim() : "";
 
-  let altText = item.alt;
-  if (!altText || altText.trim() === "") {
+  let seoAltText = rawDescription;
+  if (!seoAltText) {
     if (item.category === "filter-web") {
-      altText = `Firma de UTE y habilitación eléctrica en Piriápolis realizada por técnico autorizado`;
+      seoAltText = `Firma de UTE y habilitación eléctrica en Piriápolis realizada por técnico autorizado`;
     } else if (item.category === "filter-card") {
-      altText = `Instalación de luminaria y diseño de iluminación por electricista en Piriápolis`;
+      seoAltText = `Instalación de luminaria y diseño de iluminación por electricista en Piriápolis`;
     } else {
-      altText = `Instalación eléctrica residencial realizada en Piriápolis por técnico calificado`;
+      seoAltText = `Instalación eléctrica residencial realizada en Piriápolis por técnico calificado`;
     }
   }
 
   return {
     id: `photo-${idx}`,
     imageUrl: item.src,
-    altText: altText,
+    altText: seoAltText,
     category: categoryLabel,
-    description: altText,
+    description: rawDescription,
   };
 });
 
@@ -274,7 +275,7 @@ export function Gallery() {
                   variant="outline"
                   size="sm"
                   onClick={() => setFilter(null)}
-                  className="gap-1.5 text-xs border-border/70 hover:bg-secondary"
+                  className="gap-1.5 text-xs border-border/70 hover:bg-secondary cursor-pointer"
                 >
                   <ArrowLeft className="size-3.5" />
                   Volver a Categorías
@@ -320,22 +321,16 @@ export function Gallery() {
                       {/* gradient overlay */}
                       <div
                         aria-hidden
-                        className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-transparent opacity-75 transition-opacity duration-300 group-hover:opacity-90"
+                        className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-transparent opacity-60 transition-opacity duration-300 group-hover:opacity-80"
                       />
                       {/* category badge */}
                       <div className="absolute left-3 top-3">
                         <Badge
                           variant="outline"
-                          className="border-white/20 bg-black/45 text-[10px] text-white backdrop-blur-sm"
+                          className="border-white/20 bg-black/50 text-[10px] font-medium text-white backdrop-blur-sm"
                         >
                           {item.category}
                         </Badge>
-                      </div>
-                      {/* title */}
-                      <div className="absolute inset-x-0 bottom-0 p-3 sm:p-4">
-                        <h3 className="text-xs font-semibold text-white line-clamp-2 leading-tight sm:text-sm">
-                          Jorge Electricidad | Piriapolis-Maldonado-Uruguay
-                        </h3>
                       </div>
                     </motion.button>
                   ))}
@@ -351,16 +346,16 @@ export function Gallery() {
         open={!!selected}
         onOpenChange={(o) => !o && setSelected(null)}
       >
-        <DialogContent className="max-w-3xl border-border/70 bg-background/95 p-0 backdrop-blur-xl sm:max-w-3xl">
+        <DialogContent className="w-[calc(100%-1rem)] max-w-3xl gap-0 overflow-hidden border-border/70 bg-background/95 p-0 backdrop-blur-xl sm:max-w-3xl">
           {selected && (
             <>
-              <div className="relative aspect-[16/10] w-full overflow-hidden rounded-t-lg bg-zinc-950/60 flex items-center justify-center sm:aspect-[16/9]">
+              <div className="relative flex h-[64vh] w-full items-center justify-center overflow-hidden rounded-t-lg bg-zinc-950/80 sm:h-[70vh]">
                 <img
                   src={selected.imageUrl}
                   alt={selected.altText}
-                  className="max-h-full max-w-full object-contain"
+                  className="h-full w-full object-contain"
                 />
-                <div className="absolute left-4 top-4">
+                <div className="absolute left-3 top-3 sm:left-4 sm:top-4">
                   <Badge className="bg-primary/95 text-primary-foreground font-semibold">
                     {selected.category}
                   </Badge>
@@ -375,7 +370,7 @@ export function Gallery() {
                         e.stopPropagation();
                         handlePrev();
                       }}
-                      className="absolute left-4 top-1/2 -translate-y-1/2 z-50 flex size-10 items-center justify-center rounded-full border border-white/10 bg-black/40 text-white backdrop-blur-md transition-all hover:bg-black/75 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/50 cursor-pointer"
+                      className="absolute left-2.5 sm:left-4 top-1/2 -translate-y-1/2 z-50 flex size-10 items-center justify-center rounded-full border border-white/10 bg-black/45 text-white backdrop-blur-md transition-all hover:bg-black/75 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/50 cursor-pointer"
                       aria-label="Foto anterior"
                     >
                       <ChevronLeft className="size-6" />
@@ -386,7 +381,7 @@ export function Gallery() {
                         e.stopPropagation();
                         handleNext();
                       }}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 z-50 flex size-10 items-center justify-center rounded-full border border-white/10 bg-black/40 text-white backdrop-blur-md transition-all hover:bg-black/75 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/50 cursor-pointer"
+                      className="absolute right-2.5 sm:right-4 top-1/2 -translate-y-1/2 z-50 flex size-10 items-center justify-center rounded-full border border-white/10 bg-black/45 text-white backdrop-blur-md transition-all hover:bg-black/75 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/50 cursor-pointer"
                       aria-label="Foto siguiente"
                     >
                       <ChevronRight className="size-6" />
@@ -394,19 +389,24 @@ export function Gallery() {
                   </>
                 )}
               </div>
-              <DialogHeader className="px-6 pb-6 pt-4">
-                <DialogTitle className="text-xl flex items-center gap-2">
-                  <ImageIcon className="size-5 text-primary" />
-                  Jorge Electricidad | Piriapolis-Maldonado-Uruguay
+              <DialogHeader className="items-center px-4 py-4 text-center sm:px-6">
+                <DialogTitle className="sr-only">
+                  {selected.altText}
                 </DialogTitle>
-                <DialogDescription className="text-sm leading-relaxed text-muted-foreground mt-1">
-                  Fotografía de trabajo real en Piriápolis. Ofrecemos asesoramiento, presupuestos y garantía escrita.
-                </DialogDescription>
-                <div className="mt-4">
+                {selected.description ? (
+                  <DialogDescription className="text-sm leading-snug text-muted-foreground">
+                    {selected.description}
+                  </DialogDescription>
+                ) : (
+                  <DialogDescription className="sr-only">
+                    Fotografía de trabajo realizado por Jorge Electricidad en Piriápolis
+                  </DialogDescription>
+                )}
+                <div className={cn(selected.description ? "mt-2" : "mt-0")}>
                   <DialogClose asChild>
                     <a
                       href="#contacto"
-                      className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+                      className="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
                     >
                       Consultar por este servicio
                     </a>
